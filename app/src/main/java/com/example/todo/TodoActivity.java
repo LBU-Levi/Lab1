@@ -42,7 +42,7 @@ public class TodoActivity extends AppCompatActivity
     private void InitialiseColoursApp()
     {
         final TextView textView;
-        textView = (TextView) findViewById(R.id.textViewTodo);
+        textView = findViewById(R.id.textViewTodo);
 
         InitialiseButtonListeners(textView);
 
