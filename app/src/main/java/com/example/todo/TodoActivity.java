@@ -17,11 +17,19 @@ public class TodoActivity extends AppCompatActivity
     //Stores index for current the text to be displayed on-screen
     private int m_currentStringIndex = 0;
 
+    private static final String STRING_INDEX_KEY = "STRING_INDEX";
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         //Call the super class's onCreate method complete initialisation of the activity.
         super.onCreate(savedInstanceState);
+
+        //Pull m_currentStringIndex from previous saved state.
+        if (savedInstanceState != null)
+        {
+            m_currentStringIndex = savedInstanceState.getInt(STRING_INDEX_KEY, 0);
+        }
 
         // set the user interface layout for this Activity
         // the layout file is defined in the project res/layout/activity_todo.xml file
@@ -51,11 +59,18 @@ public class TodoActivity extends AppCompatActivity
         textView.setTextColor(m_colourArray[m_currentStringIndex]);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState)
+    {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putInt(STRING_INDEX_KEY, m_currentStringIndex);
+    }
+
     private void InitialiseButtonListeners(final TextView textView)
     {
         Button buttonNext, buttonPrev;
-        buttonNext = (Button) findViewById(R.id.buttonNext);
-        buttonPrev = (Button) findViewById(R.id.buttonPrev);
+        buttonNext = findViewById(R.id.buttonNext);
+        buttonPrev = findViewById(R.id.buttonPrev);
 
         buttonNext.setOnClickListener(new View.OnClickListener()
         {
