@@ -1,18 +1,18 @@
 <resources>
 
-    <string name="app_name">Colours!</string>
+    <string name="app_name">Levi\'s todo list!</string>
     <string name="next">Next</string>
     <string name="prev">Prev</string>
-    <string name="todo_list">Todo list!</string>
+    <string name="todo_list">Levi\'s todo list!</string>
 
-    <string-array name="colour_names">
-        <item>Red</item>
-        <item>Orange</item>
-        <item>Yellow</item>
-        <item>Blue</item>
-        <item>Green</item>
-        <item>Purple</item>
-        <item>Black</item>
+    <string-array name="task_names">
+        <item>Go to the Gym.</item>
+        <item>Warm up 15 minutes.</item>
+        <item>Do Bench press 40 minutes.</item>
+        <item>Do 3000m on the Rowing machine.</item>
+        <item>30 minute Bicep curls.</item>
+        <item>Eat.</item>
+        <item>Run home.</item>
     </string-array>
 
 </resources>
