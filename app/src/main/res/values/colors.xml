@@ -3,4 +3,15 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <integer-array name="colour_values">
+        <item>0xFFFF0000</item>
+        <item>0xFFFFA600</item>
+        <item>0xFFFFEE00</item>
+        <item>0xFF0011FF</item>
+        <item>0xFF00FF3C</item>
+        <item>0xFF9900FF</item>
+        <item>0xFF000000</item>
+    </integer-array>
+
 </resources>

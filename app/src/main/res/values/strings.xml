@@ -1,16 +1,18 @@
 <resources>
 
-    <string name="app_name">Todo</string>
+    <string name="app_name">Levi\'s todo list!</string>
     <string name="next">Next</string>
     <string name="prev">Prev</string>
-    <string name="todo_list">Todo list!</string>
+    <string name="todo_list">Levi\'s todo list!</string>
 
-    <string-array name="todo">
-        <item>Wake up</item>
-        <item>Drink Coffee</item>
-        <item>Make at least one person laugh</item>
-        <item>Plant a tree</item>
-        <item>Go to sleep</item>
+    <string-array name="task_names">
+        <item>Go to the Gym.</item>
+        <item>Warm up 15 minutes.</item>
+        <item>Do Bench press 40 minutes.</item>
+        <item>Do 3000m on the Rowing machine.</item>
+        <item>30 minute Bicep curls.</item>
+        <item>Eat.</item>
+        <item>Run home.</item>
     </string-array>
 
 </resources>
