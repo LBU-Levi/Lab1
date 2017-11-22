@@ -2,6 +2,7 @@ package com.example.todo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,6 +23,12 @@ public class TodoActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        //Only log state changes for debug builds.
+        if(BuildConfig.DEBUG)
+        {
+            Log.d("TodoActivity.onCreate", "Info: Application State change detected, current is: onCreate!");
+        }
+
         //Call the super class's onCreate method to complete initialisation of the activity.
         super.onCreate(savedInstanceState);
 
@@ -39,10 +46,69 @@ public class TodoActivity extends AppCompatActivity
         InitialiseApp();
     }
 
+    @Override
+    protected void onStart()
+    {
+        //Only log state changes for debug builds.
+        if(BuildConfig.DEBUG)
+        {
+            Log.d("TodoActivity.onStart", "Info: Application State change detected, current is: onStart!");
+        }
+
+        super.onStart();
+        getDelegate().onStart();
+    }
+
+    @Override
+    public void onResume()
+    {
+        //Only log state changes for debug builds.
+        if(BuildConfig.DEBUG)
+        {
+            Log.d("TodoActivity.onResume", "Info: Application State change detected, current is: onResume!");
+        }
+
+        super.onResume();
+    }
+
+    @Override
+    public void onPause()
+    {
+        //Only log state changes for debug builds.
+        if(BuildConfig.DEBUG)
+        {
+            Log.d("TodoActivity.onPause", "Info: Application State change detected, current is: onPause!");
+        }
+
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop()
+    {
+        //Only log state changes for debug builds.
+        if(BuildConfig.DEBUG)
+        {
+            Log.d("TodoActivity.onStop", "Info: Application State change detected, current is: onStop!");
+        }
+
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        //Only log state changes for debug builds.
+        if(BuildConfig.DEBUG)
+        {
+            Log.d("TodoActivity.onDestroy", "Info: Application State change detected, current is: onDestroy!");
+        }
+
+        super.onDestroy();
+    }
+
     private void InitialiseApp()
     {
-        //First off, let's set the initial texts shown on-screen.
-
         //Setup the onClick call-back for our buttons.
         InitialiseButtonListeners();
 
@@ -52,7 +118,7 @@ public class TodoActivity extends AppCompatActivity
         //Read up the colours array from res/values/colors.xml
         m_colourArray = getResources().getIntArray(R.array.colour_values);
 
-        //Update the text view
+        //Update the text view so initial texts are shown on-screen.
         UpdateTextView();
     }
 
