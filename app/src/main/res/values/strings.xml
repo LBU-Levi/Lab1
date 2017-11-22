@@ -4,6 +4,8 @@
     <string name="next">Next</string>
     <string name="prev">Prev</string>
     <string name="todo_list">Levi\'s todo list!</string>
+    <string name = "back_button_pressed">Back button pressed!</string>
+    <string name = "request_code_mismatch">Request code mis-match!</string>
 
     <string-array name="task_names">
         <item>Go to the Gym.</item>
