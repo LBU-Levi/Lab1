@@ -59,10 +59,8 @@ public class TodoActivity extends AppCompatActivity
         //Sets up default values and button listeners.
         InitialiseApp();
 
-
         Intent intent = TodoDetailActivity.newIntent(TodoActivity.this, m_currentTask);
         startActivity(intent);
-
     }
 
     /*
@@ -73,40 +71,39 @@ public class TodoActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
-        if (requestCode == IS_SUCCESS ){
+        if (requestCode == IS_SUCCESS )
+        {
             if (intent != null) {
                 // data in intent from child activity
                 boolean isTodoComplete = intent.getBooleanExtra(IS_TODO_COMPLETE, false);
                 updateTodoComplete(isTodoComplete);
-            } else {
+            }
+            else
+            {
                 Toast.makeText(this, R.string.back_button_pressed, Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(this, R.string.request_code_mismatch,
-                    Toast.LENGTH_SHORT).show();
         }
-
+        else
+        {
+            Toast.makeText(this, R.string.request_code_mismatch, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void updateTodoComplete(boolean is_todo_complete) {
 
-        final TextView textViewTodo;
-        textViewTodo = (TextView) findViewById(R.id.textViewTodo);
+        final TextView textViewTodo = findViewById(R.id.textViewTodo);
 
-        if (is_todo_complete) {
-            textViewTodo.setBackgroundColor(
-                    ContextCompat.getColor(this, R.color.backgroundSuccess));
-            textViewTodo.setTextColor(
-                    ContextCompat.getColor(this, R.color.colorSuccess));
-
+        if (is_todo_complete)
+        {
+            textViewTodo.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundSuccess));
+            textViewTodo.setTextColor(ContextCompat.getColor(this, R.color.colorSuccess));
             setTextViewComplete("\u2713");
         }
     }
 
-    private void setTextViewComplete( String message ){
-        final TextView textViewComplete;
-        textViewComplete = (TextView) findViewById(R.id.textViewComplete);
-
+    private void setTextViewComplete( String message )
+    {
+        final TextView textViewComplete = findViewById(R.id.textViewComplete);
         textViewComplete.setText(message);
     }
 
@@ -201,6 +198,7 @@ public class TodoActivity extends AppCompatActivity
         Button buttonNext = findViewById(R.id.buttonNext);
         Button buttonPrev = findViewById(R.id.buttonPrev);
         Button buttonAdd = findViewById(R.id.buttonAdd);
+        Button buttonTodoDetail = findViewById(R.id.buttonTodoDetail);
 
         final EditText editTextAddTask = findViewById(R.id.editText);
 
@@ -236,6 +234,21 @@ public class TodoActivity extends AppCompatActivity
                m_tasksTodo.add(editTextAddTask.getText().toString());
             }
         });
+
+        buttonTodoDetail.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v)
+            {
+                // Note, the child class being called has a static method determining the parameter
+                // to be passed to it in the intent object
+                Intent intent = TodoDetailActivity.newIntent(TodoActivity.this, m_currentTask);
+
+                // second param requestCode identifies the call as there could be many "intents"
+                startActivityForResult(intent, IS_SUCCESS);
+                // The result will come back through
+                // onActivityResult(requestCode, resultCode, Intent) method
+            }
+        });
     }
 
     private void UpdateTextView()
@@ -256,5 +269,6 @@ public class TodoActivity extends AppCompatActivity
         }
 
         textView.setText(m_tasksTodo.get(m_currentTask));
+        setTextViewComplete("");
     }
 }
