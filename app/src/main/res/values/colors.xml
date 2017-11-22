@@ -12,6 +12,8 @@
         <item>0xFF00FF3C</item>
         <item>0xFF9900FF</item>
         <item>0xFF000000</item>
+        <item>0xFF0011FF</item>
+        <item>0xFF9900FF</item>
     </integer-array>
 
 </resources>

@@ -5,12 +5,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TodoActivity extends AppCompatActivity
 {
     //Used to store all the tasks the person wants to do.
-    private String[] m_tasksTodo;
+    private ArrayList<String> m_tasksTodo = new ArrayList<String>();
+    //private String[] m_tasksTodo;
+
 
     //Used to store/access unique colours for the texts drawn on-screen.
     private int[] m_colourArray;
@@ -42,7 +48,6 @@ public class TodoActivity extends AppCompatActivity
         // the layout file is defined in the project res/layout/activity_todo.xml file
         setContentView(R.layout.activity_todo);
 
-        //Sets up default values for the app and button listeners.
         InitialiseApp();
     }
 
@@ -113,7 +118,10 @@ public class TodoActivity extends AppCompatActivity
         InitialiseButtonListeners();
 
         //Read the task names array from res/values/strings.xml
-        m_tasksTodo = getResources().getStringArray(R.array.task_names);
+        String[] tasks = getResources().getStringArray(R.array.task_names);
+        m_tasksTodo.addAll(Arrays.asList(tasks));
+
+        //m_tasksTodo = getResources().getStringArray(R.array.task_names);
 
         //Read up the colours array from res/values/colors.xml
         m_colourArray = getResources().getIntArray(R.array.colour_values);
@@ -131,17 +139,18 @@ public class TodoActivity extends AppCompatActivity
 
     private void InitialiseButtonListeners()
     {
-        Button buttonNext, buttonPrev;
+        Button buttonNext = findViewById(R.id.buttonNext);
+        Button buttonPrev = findViewById(R.id.buttonPrev);
+        Button buttonAdd = findViewById(R.id.buttonAdd);
 
-        buttonNext = findViewById(R.id.buttonNext);
-        buttonPrev = findViewById(R.id.buttonPrev);
+        final EditText editTextAddTask = findViewById(R.id.editText);
 
         buttonNext.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                m_currentTask = ++m_currentTask % m_tasksTodo.length;
+                m_currentTask = ++m_currentTask % m_tasksTodo.size();
 
                 //Updates the text view to the current task since it's now modified.
                 UpdateTextView();
@@ -153,10 +162,19 @@ public class TodoActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                m_currentTask = m_currentTask == 0 ? m_tasksTodo.length-1 : --m_currentTask;
+                m_currentTask = m_currentTask == 0 ? m_tasksTodo.size()-1 : --m_currentTask;
 
                 //Updates the text view to the current task since it's now modified.
                 UpdateTextView();
+            }
+        });
+
+        buttonAdd.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+               m_tasksTodo.add(editTextAddTask.getText().toString());
             }
         });
     }
@@ -165,7 +183,19 @@ public class TodoActivity extends AppCompatActivity
     {
         //Retrieve the text view object
         final TextView textView = findViewById(R.id.textViewTodo);
-        textView.setText(m_tasksTodo[m_currentTask]);
-        textView.setTextColor(m_colourArray[m_currentTask]);
+
+        //Clamp
+        ///@HACK - Because m_tasksTodo is no longer fixed length.
+        ///Temporarily clamp colour index back if exceeding fixed size limit.
+        if(m_currentTask > m_colourArray.length-1)
+        {
+            textView.setTextColor(m_colourArray[0]);
+        }
+        else
+        {
+            textView.setTextColor(m_colourArray[m_currentTask]);
+        }
+
+        textView.setText(m_tasksTodo.get(m_currentTask));
     }
 }

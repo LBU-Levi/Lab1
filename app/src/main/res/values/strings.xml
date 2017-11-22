@@ -3,7 +3,6 @@
     <string name="app_name">Levi\'s todo list!</string>
     <string name="next">Next</string>
     <string name="prev">Prev</string>
-    <string name="todo_list">Levi\'s todo list!</string>
 
     <string-array name="task_names">
         <item>Go to the Gym.</item>
@@ -12,7 +11,8 @@
         <item>Do 3000m on the Rowing machine.</item>
         <item>30 minute Bicep curls.</item>
         <item>Eat.</item>
-        <item>Run home.</item>
+        <item>Run home</item>
+        <item>Drink Whisky.</item>
+        <item>Continue Decompiling Game.</item>
     </string-array>
-
 </resources>
