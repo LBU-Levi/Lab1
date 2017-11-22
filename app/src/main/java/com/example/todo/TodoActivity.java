@@ -1,20 +1,15 @@
 package com.example.todo;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -69,14 +64,15 @@ public class TodoActivity extends AppCompatActivity
     intent date attached with intent "extras"
 */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-
-        if (requestCode == IS_SUCCESS )
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent)
+    {
+        Log.d("TEST", "ONACTRESULT" + IS_SUCCESS);
+        if (requestCode == IS_SUCCESS)
         {
-            if (intent != null) {
+            if (intent != null)
+            {
                 // data in intent from child activity
-                boolean isTodoComplete = intent.getBooleanExtra(IS_TODO_COMPLETE, false);
-                updateTodoComplete(isTodoComplete);
+                updateTodoComplete(intent.getBooleanExtra(IS_TODO_COMPLETE, false));
             }
             else
             {
@@ -89,8 +85,8 @@ public class TodoActivity extends AppCompatActivity
         }
     }
 
-    private void updateTodoComplete(boolean is_todo_complete) {
-
+    private void updateTodoComplete(boolean is_todo_complete)
+    {
         final TextView textViewTodo = findViewById(R.id.textViewTodo);
 
         if (is_todo_complete)
