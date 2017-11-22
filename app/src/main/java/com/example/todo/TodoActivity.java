@@ -7,16 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TodoActivity extends AppCompatActivity
 {
     //Used to store all the tasks the person wants to do.
-    private ArrayList<String> m_tasksTodo = new ArrayList<String>();
-    //private String[] m_tasksTodo;
-
+    private ArrayList<String> m_tasksTodo = new ArrayList<>();
 
     //Used to store/access unique colours for the texts drawn on-screen.
     private int[] m_colourArray;
@@ -24,7 +21,10 @@ public class TodoActivity extends AppCompatActivity
     //Stores index for current the task entry (m_tasksTodo) displayed on-screen.
     private int m_currentTask = 0;
 
-    private static final String STRING_INDEX_KEY = "STRING_INDEX";
+    //Key for our m_currentTask variable. Used to push m_currentTask onto savedInstanceState.
+    //Allows us to retrieve the original contents of m_currentTask if the activity is re-created
+    //Example: orientation change.
+    private static final String KEY_CURRENT_TASK = "CURRENT_TASK";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,16 +38,17 @@ public class TodoActivity extends AppCompatActivity
         //Call the super class's onCreate method to complete initialisation of the activity.
         super.onCreate(savedInstanceState);
 
-        //Pull m_currentStringIndex from previous saved state.
+        //If not null the app has an incoming previously saved instance state.
+        //Restore any critical variables accordingly.
         if (savedInstanceState != null)
         {
-            m_currentTask = savedInstanceState.getInt(STRING_INDEX_KEY, 0);
+            m_currentTask = savedInstanceState.getInt(KEY_CURRENT_TASK, 0);
         }
 
-        // set the user interface layout for this Activity
-        // the layout file is defined in the project res/layout/activity_todo.xml file
+        //Bind a layout xml to our current activity.
         setContentView(R.layout.activity_todo);
 
+        //We're ready to initialise the app's internal data/ui elements.
         InitialiseApp();
     }
 
@@ -114,14 +115,11 @@ public class TodoActivity extends AppCompatActivity
 
     private void InitialiseApp()
     {
-        //Setup the onClick call-back for our buttons.
+        //Setup the onClick call-backs for our buttons.
         InitialiseButtonListeners();
 
         //Read the task names array from res/values/strings.xml
-        String[] tasks = getResources().getStringArray(R.array.task_names);
-        m_tasksTodo.addAll(Arrays.asList(tasks));
-
-        //m_tasksTodo = getResources().getStringArray(R.array.task_names);
+        m_tasksTodo.addAll(Arrays.asList(getResources().getStringArray(R.array.task_names)));
 
         //Read up the colours array from res/values/colors.xml
         m_colourArray = getResources().getIntArray(R.array.colour_values);
@@ -133,16 +131,17 @@ public class TodoActivity extends AppCompatActivity
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState)
     {
+        //Peserve m_currentTask in the saved Instance State.
+        //Allows us to restore the value upon activity re-creation (onCreate).
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putInt(STRING_INDEX_KEY, m_currentTask);
+        savedInstanceState.putInt(KEY_CURRENT_TASK, m_currentTask);
     }
 
     private void InitialiseButtonListeners()
     {
-        Button buttonNext = findViewById(R.id.buttonNext);
-        Button buttonPrev = findViewById(R.id.buttonPrev);
-        Button buttonAdd = findViewById(R.id.buttonAdd);
-
+        final Button buttonNext = findViewById(R.id.buttonNext);
+        final Button buttonPrev = findViewById(R.id.buttonPrev);
+        final Button buttonAdd = findViewById(R.id.buttonAdd);
         final EditText editTextAddTask = findViewById(R.id.editText);
 
         buttonNext.setOnClickListener(new View.OnClickListener()
@@ -181,8 +180,8 @@ public class TodoActivity extends AppCompatActivity
 
     private void UpdateTextView()
     {
-        //Retrieve the text view object
-        final TextView textView = findViewById(R.id.textViewTodo);
+        //Retrieve the text view object we're using to display the tasks to do.
+        final TextView textView = findViewById(R.id.textViewTaskList);
 
         //Clamp
         ///@HACK - Because m_tasksTodo is no longer fixed length.

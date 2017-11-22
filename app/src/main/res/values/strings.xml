@@ -1,8 +1,12 @@
 <resources>
 
-    <string name="app_name">Levi\'s todo list!</string>
-    <string name="next">Next</string>
-    <string name="prev">Prev</string>
+    <string name="app_name">Your Task List</string>
+    <string name="enter_new_task">Enter new task!</string>
+    <string name="default_task">Go to the Gym.</string>
+
+    <string name="button_next">Next</string>
+    <string name="button_prev">Previous</string>
+    <string name="button_add">Add</string>
 
     <string-array name="task_names">
         <item>Go to the Gym.</item>
