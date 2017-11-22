@@ -8,67 +8,65 @@ import android.widget.TextView;
 
 public class TodoActivity extends AppCompatActivity
 {
-    //Used to store/access our texts defined in res/values/strings.xml
-    private String[] m_stringArray;
+    //Used to store all the tasks the person wants to do.
+    private String[] m_tasksTodo;
 
-    //Used to store/access our colours defined in res/values/colours.xml
+    //Used to store/access unique colours for the texts drawn on-screen.
     private int[] m_colourArray;
 
-    //Stores index for current the text to be displayed on-screen
-    private int m_currentStringIndex = 0;
+    //Stores index for current the task entry (m_tasksTodo) displayed on-screen.
+    private int m_currentTask = 0;
 
     private static final String STRING_INDEX_KEY = "STRING_INDEX";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        //Call the super class's onCreate method complete initialisation of the activity.
+        //Call the super class's onCreate method to complete initialisation of the activity.
         super.onCreate(savedInstanceState);
 
         //Pull m_currentStringIndex from previous saved state.
         if (savedInstanceState != null)
         {
-            m_currentStringIndex = savedInstanceState.getInt(STRING_INDEX_KEY, 0);
+            m_currentTask = savedInstanceState.getInt(STRING_INDEX_KEY, 0);
         }
 
         // set the user interface layout for this Activity
         // the layout file is defined in the project res/layout/activity_todo.xml file
         setContentView(R.layout.activity_todo);
 
-        //Sets up default values and button listeners.
-        InitialiseColoursApp();
+        //Sets up default values for the app and button listeners.
+        InitialiseApp();
     }
 
-    private void InitialiseColoursApp()
+    private void InitialiseApp()
     {
-        final TextView textView;
-        textView = findViewById(R.id.textViewTodo);
+        //First off, let's set the initial texts shown on-screen.
 
-        InitialiseButtonListeners(textView);
+        //Setup the onClick call-back for our buttons.
+        InitialiseButtonListeners();
 
-        //Read the todo array from res/values/strings.xml
-        m_stringArray = getResources().getStringArray(R.array.task_names);
+        //Read the task names array from res/values/strings.xml
+        m_tasksTodo = getResources().getStringArray(R.array.task_names);
 
         //Read up the colours array from res/values/colors.xml
         m_colourArray = getResources().getIntArray(R.array.colour_values);
 
-        //Display the first task from m_stringArray array in the textView
-        textView.setText(m_stringArray[m_currentStringIndex]);
-
-        //Set colour of current text displayed.
-        textView.setTextColor(m_colourArray[m_currentStringIndex]);
+        //Update the text view
+        UpdateTextView();
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState)
     {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putInt(STRING_INDEX_KEY, m_currentStringIndex);
+        savedInstanceState.putInt(STRING_INDEX_KEY, m_currentTask);
     }
 
-    private void InitialiseButtonListeners(final TextView textView)
+    private void InitialiseButtonListeners()
     {
         Button buttonNext, buttonPrev;
+
         buttonNext = findViewById(R.id.buttonNext);
         buttonPrev = findViewById(R.id.buttonPrev);
 
@@ -77,8 +75,10 @@ public class TodoActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                textView.setText(m_stringArray[m_currentStringIndex = ++m_currentStringIndex % m_stringArray.length]);
-                textView.setTextColor(m_colourArray[m_currentStringIndex]);
+                m_currentTask = ++m_currentTask % m_tasksTodo.length;
+
+                //Updates the text view to the current task since it's now modified.
+                UpdateTextView();
             }
         });
 
@@ -87,9 +87,19 @@ public class TodoActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                textView.setText(m_stringArray[m_currentStringIndex == 0 ? m_currentStringIndex = m_stringArray.length-1 : --m_currentStringIndex]);
-                textView.setTextColor(m_colourArray[m_currentStringIndex]);
+                m_currentTask = m_currentTask == 0 ? m_tasksTodo.length-1 : --m_currentTask;
+
+                //Updates the text view to the current task since it's now modified.
+                UpdateTextView();
             }
         });
+    }
+
+    private void UpdateTextView()
+    {
+        //Retrieve the text view object
+        final TextView textView = findViewById(R.id.textViewTodo);
+        textView.setText(m_tasksTodo[m_currentTask]);
+        textView.setTextColor(m_colourArray[m_currentTask]);
     }
 }
