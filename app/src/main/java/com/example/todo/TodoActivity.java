@@ -24,6 +24,10 @@ public class TodoActivity extends AppCompatActivity
     //Allows us to retrieve the original contents of m_currentTask if the activity is re-created
     //Example: orientation change.
     private static final String KEY_CURRENT_TASK = "CURRENT_TASK";
+    private static final String KEY_CURRENT_COLOUR = "CURRENT_COLOUR";
+
+    //To store the current text's colour.
+    private int m_currentTextColour = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -42,6 +46,7 @@ public class TodoActivity extends AppCompatActivity
         if (savedInstanceState != null)
         {
             m_currentTask = savedInstanceState.getInt(KEY_CURRENT_TASK, 0);
+            m_currentTextColour = savedInstanceState.getInt(KEY_CURRENT_COLOUR, 0);
         }
 
         //Bind a layout xml to our current activity.
@@ -131,6 +136,7 @@ public class TodoActivity extends AppCompatActivity
         //Allows us to restore the value upon activity re-creation (onCreate).
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt(KEY_CURRENT_TASK, m_currentTask);
+        savedInstanceState.putInt(KEY_CURRENT_COLOUR, m_currentTextColour);
     }
 
     private void InitialiseButtonListeners()
@@ -141,6 +147,12 @@ public class TodoActivity extends AppCompatActivity
         final Button buttonAdd = findViewById(R.id.buttonAdd);
         final EditText editTextAddTask = findViewById(R.id.editText);
 
+        //Impossible to continue if any of these objects weren't found in the content view.
+        if(BuildConfig.DEBUG)
+        {
+            assert(buttonNext != null && buttonPrev != null && buttonAdd != null && editTextAddTask != null);
+        }
+
         buttonNext.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -150,6 +162,9 @@ public class TodoActivity extends AppCompatActivity
 
                 if(BuildConfig.DEBUG)
                     assert(m_currentTask < m_tasksTodo.size() && m_currentTask > -1);
+
+                //Generate the next random colour for our text.
+                genNextRandomColour();
 
                 //Updates the text view to the current task since it's now modified.
                 UpdateTextView();
@@ -165,6 +180,9 @@ public class TodoActivity extends AppCompatActivity
 
                 if(BuildConfig.DEBUG)
                     assert(m_currentTask < m_tasksTodo.size() && m_currentTask > -1);
+
+                //Generate the next random colour for our text.
+                genNextRandomColour();
 
                 //Updates the text view to the current task since it's now modified.
                 UpdateTextView();
@@ -185,9 +203,13 @@ public class TodoActivity extends AppCompatActivity
     {
         //Retrieve the text view object we're using to display the tasks to do.
         final TextView textView = findViewById(R.id.textViewTaskList);
-        Random r = new Random();
-
         textView.setText(m_tasksTodo.get(m_currentTask));
-        textView.setTextColor(0xFF000000 | r.nextInt(255) << 16 & 0x00FF0000 | r.nextInt(255) << 8 & 0x0000FF00 | r.nextInt(255) & 0xFF);
+        textView.setTextColor(m_currentTextColour);
+    }
+
+    private void genNextRandomColour()
+    {
+        Random r = new Random();
+        m_currentTextColour = (0xFF000000 | r.nextInt(255) << 16 & 0x00FF0000 | r.nextInt(255) << 8 & 0x0000FF00 | r.nextInt(255) & 0xFF);
     }
 }
