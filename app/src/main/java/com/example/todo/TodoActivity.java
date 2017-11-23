@@ -189,6 +189,7 @@ public class TodoActivity extends AppCompatActivity
 
     private void InitialiseButtonListeners()
     {
+        //Search the content view for our buttons and retrieve the object.
         final Button buttonNext = findViewById(R.id.buttonNext);
         final Button buttonPrev = findViewById(R.id.buttonPrev);
         final Button buttonAdd = findViewById(R.id.buttonAdd);
