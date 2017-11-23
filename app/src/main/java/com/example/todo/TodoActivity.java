@@ -68,11 +68,13 @@ public class TodoActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent)
     {
+        //Check if request code matches child activity
         if (requestCode == IS_SUCCESS)
         {
             if (intent != null)
             {
-                // data in intent from child activity
+                //We have the intent from TodoDetailActivity.
+                //Pull out the IS_TODO_COMPLETE bool
                 updateTodoComplete(intent.getBooleanExtra(IS_TODO_COMPLETE, false));
             }
             else
