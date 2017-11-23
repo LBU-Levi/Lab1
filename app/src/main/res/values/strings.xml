@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">Your Task List</string>
-    <string name="enter_new_task">Enter new task!</string>
+    <string name="enter_new_task">Enter a new task!</string>
     <string name="default_task">Go to the Gym.</string>
 
     <string name="button_next">Next</string>
@@ -18,5 +18,6 @@
         <item>Run home</item>
         <item>Drink Whisky.</item>
         <item>Continue Decompiling Game.</item>
+        <item>Study.</item>
     </string-array>
 </resources>
