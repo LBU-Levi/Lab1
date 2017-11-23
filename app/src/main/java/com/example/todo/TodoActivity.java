@@ -68,7 +68,6 @@ public class TodoActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent)
     {
-        Log.d("TEST", "ONACTRESULT" + IS_SUCCESS);
         if (requestCode == IS_SUCCESS)
         {
             if (intent != null)
@@ -87,11 +86,11 @@ public class TodoActivity extends AppCompatActivity
         }
     }
 
-    private void updateTodoComplete(boolean is_todo_complete)
+    private void updateTodoComplete(boolean bIsComplete)
     {
         final TextView textViewTodo = findViewById(R.id.textViewTodo);
 
-        if (is_todo_complete)
+        if (bIsComplete)
         {
             textViewTodo.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundSuccess));
             textViewTodo.setTextColor(ContextCompat.getColor(this, R.color.colorSuccess));
@@ -236,7 +235,8 @@ public class TodoActivity extends AppCompatActivity
             }
         });
 
-        buttonTodoDetail.setOnClickListener(new View.OnClickListener(){
+        buttonTodoDetail.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {

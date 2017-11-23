@@ -13,14 +13,14 @@ import android.widget.Toast;
 
 public class TodoDetailActivity extends AppCompatActivity
 {
-    private int mTodoIndex;
+    private int m_currentTask = 0;
     private static final String TODO_INDEX = "com.example.todoIndex";
     private static final String IS_TODO_COMPLETE = "com.example.isTodoComplete";
 
-    public static Intent newIntent(Context packageContext, int todoIndex)
+    public static Intent newIntent(Context packageContext, int currentTask)
     {
         Intent intent = new Intent(packageContext, TodoDetailActivity.class);
-        intent.putExtra(TODO_INDEX, todoIndex);
+        intent.putExtra(TODO_INDEX, currentTask);
         return intent;
     }
 
@@ -29,7 +29,7 @@ public class TodoDetailActivity extends AppCompatActivity
     public void onSaveInstanceState(Bundle savedInstanceState)
     {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putInt(TODO_INDEX, mTodoIndex);
+        savedInstanceState.putInt(TODO_INDEX, m_currentTask);
     }
 
     @Override
@@ -37,14 +37,16 @@ public class TodoDetailActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_detail);
-        if (savedInstanceState != null){
-            mTodoIndex = savedInstanceState.getInt(TODO_INDEX, 0);
+
+        if (savedInstanceState != null)
+        {
+            m_currentTask = savedInstanceState.getInt(TODO_INDEX, 0);
         }
 
         // initialize member TextView so we can manipulate it later
         TextView TodoDetailTextView = findViewById(R.id.textViewTodoDetail);
 
-        // get the intent extra int for the todos index
+        //Retrieve currentTask
         int mTodoIndex = getIntent().getIntExtra(TODO_INDEX, 0);
         updateTextViewTodoDetail(mTodoIndex);
 
