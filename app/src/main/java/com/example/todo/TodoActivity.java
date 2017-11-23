@@ -12,16 +12,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 public class TodoActivity extends AppCompatActivity
 {
     private static final int IS_SUCCESS = 0;
 
     //Used to store all the tasks the person wants to do.
+    //Note: Now dynamic sized array to allow adding tasks on the fly.
     private ArrayList<String> m_tasksTodo = new ArrayList<>();
-
-    //Used to store/access unique colours for the texts drawn on-screen.
-    private int[] m_colourArray;
 
     //Stores index for current the task entry (m_tasksTodo) displayed on-screen.
     private int m_currentTask = 0;
@@ -45,7 +44,7 @@ public class TodoActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         //If not null the app has an incoming previously saved instance state.
-        //Restore any critical variables accordingly.
+        //Restore any critical variables this activity instance has lost.
         if (savedInstanceState != null)
         {
             m_currentTask = savedInstanceState.getInt(KEY_CURRENT_TASK, 0);
@@ -175,9 +174,6 @@ public class TodoActivity extends AppCompatActivity
         //Read the task names array from res/values/strings.xml
         m_tasksTodo.addAll(Arrays.asList(getResources().getStringArray(R.array.task_names)));
 
-        //Read up the colours array from res/values/colors.xml
-        m_colourArray = getResources().getIntArray(R.array.colour_values);
-
         //Update the text view so initial texts are shown on-screen.
         UpdateTextView();
     }
@@ -185,7 +181,7 @@ public class TodoActivity extends AppCompatActivity
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState)
     {
-        //Peserve m_currentTask in the saved Instance State.
+        //Preserve m_currentTask in the saved Instance State.
         //Allows us to restore the value upon activity re-creation (onCreate).
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt(KEY_CURRENT_TASK, m_currentTask);
@@ -207,6 +203,9 @@ public class TodoActivity extends AppCompatActivity
             {
                 m_currentTask = ++m_currentTask % m_tasksTodo.size();
 
+                if(BuildConfig.DEBUG)
+                    assert(m_currentTask < m_tasksTodo.size() && m_currentTask > -1);
+
                 //Updates the text view to the current task since it's now modified.
                 UpdateTextView();
             }
@@ -218,6 +217,9 @@ public class TodoActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 m_currentTask = m_currentTask == 0 ? m_tasksTodo.size()-1 : --m_currentTask;
+
+                if(BuildConfig.DEBUG)
+                    assert(m_currentTask < m_tasksTodo.size() && m_currentTask > -1);
 
                 //Updates the text view to the current task since it's now modified.
                 UpdateTextView();
@@ -253,20 +255,10 @@ public class TodoActivity extends AppCompatActivity
     {
         //Retrieve the text view object we're using to display the tasks to do.
         final TextView textView = findViewById(R.id.textViewTaskList);
-
-        //Clamp
-        ///@HACK - Because m_tasksTodo is no longer fixed length.
-        ///Temporarily clamp colour index back if exceeding fixed size limit.
-        if(m_currentTask > m_colourArray.length-1)
-        {
-            textView.setTextColor(m_colourArray[0]);
-        }
-        else
-        {
-            textView.setTextColor(m_colourArray[m_currentTask]);
-        }
+        Random r = new Random();
 
         textView.setText(m_tasksTodo.get(m_currentTask));
         setTextViewComplete("");
+        textView.setTextColor(0xFF000000 | r.nextInt(255) << 16 & 0x00FF0000 | r.nextInt(255) << 8 & 0x0000FF00 | r.nextInt(255) & 0xFF);
     }
 }
