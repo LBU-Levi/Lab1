@@ -1,7 +1,7 @@
 <resources>
 
-    <string name="app_name">Your Task List</string>
-    <string name="enter_new_task">Enter a new task!</string>
+    <string name="app_name">Notes:</string>
+    <string name="enter_new_task">Enter a new note!</string>
     <string name="default_task">Go to the Gym.</string>
 
     <string name="button_next">Next</string>
